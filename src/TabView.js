@@ -27,6 +27,7 @@ type Props<T> = PagerCommonProps<T> &
     tabBarPosition: 'top' | 'bottom',
     useNativeDriver?: boolean,
     style?: ViewStyleProp,
+    pagerStyle?: ViewStyleProp,
   };
 
 type State = {|
@@ -185,11 +186,13 @@ export default class TabView<T: *> extends React.Component<Props<T>, State> {
     } = this.props;
 
     const props = this._buildSceneRendererProps();
-
     return (
       <View collapsable={false} style={[styles.container, this.props.style]}>
         {tabBarPosition === 'top' && renderTabBar(props)}
-        <View onLayout={this._handleLayout} style={styles.pager}>
+        <View
+          onLayout={this._handleLayout}
+          style={[styles.pager, this.props.pagerStyle]}
+        >
           {renderPager({
             ...props,
             ...rest,
