@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Animated, View, StyleSheet } from 'react-native';
+import { Animated, View, StyleSheet, ScrollView } from 'react-native';
 import TabBar from './TabBar';
 import PagerDefault from './PagerDefault';
 import { NavigationStatePropType } from './PropTypes';
@@ -188,10 +188,13 @@ export default class TabView<T: *> extends React.Component<Props<T>, State> {
     const props = this._buildSceneRendererProps();
     return (
       <View collapsable={false} style={[styles.container, this.props.style]}>
-        {tabBarPosition === 'top' && renderTabBar(props)}
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+          {tabBarPosition === 'top' && renderTabBar(props)}
+        </View>
         <View
           onLayout={this._handleLayout}
           style={[styles.pager, this.props.pagerStyle]}
+          pointerEvents="box-none"
         >
           {renderPager({
             ...props,
@@ -221,7 +224,6 @@ export default class TabView<T: *> extends React.Component<Props<T>, State> {
             }),
           })}
         </View>
-        {tabBarPosition === 'bottom' && renderTabBar(props)}
       </View>
     );
   }
@@ -233,6 +235,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   pager: {
-    flex: 1,
+    flex: 1
   },
 });
